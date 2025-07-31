@@ -1,5 +1,5 @@
-#Kyle Butler
-##Homework Rep
+# Kyle Butler
+## Homework Rep
 
 - Learn full stack programming in HTML, CSS, and Javascript.
 - Build a capstone project to demonstrate my programming abilities.
