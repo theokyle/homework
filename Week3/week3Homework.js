@@ -37,8 +37,8 @@ function getPizzaOrder(size, crust, ...toppings) {
       }
     }
 
-    // I would actually use "if (pizzaToppings.includes(toppings[i]))"" here instead of the previous loop with toppingsCheck,
-    // but didn't want to invoke array methods as per the instructions so used iteration instead.
+    // I would actually use "if (!pizzaToppings.includes(toppings[i]))"" here instead of the previous loop with toppingsCheck,
+    // but didn't want to rely on array methods as per the instructions so used iteration instead.
 
     if (!toppingsCheck) {
       console.log("Sorry, we do not offer those toppings.");
@@ -87,6 +87,7 @@ function servePizza(pizzaObject) {
 }
 
 // 6. Call each function and (starting with preparePizza) use the returned value from the previous function as its input
+
 // 2. greetCustomer function
 greetCustomer(pizzaToppings);
 // 3a. getPizzaOrder with no toppings
@@ -96,12 +97,7 @@ getPizzaOrder("large", "thick crust", "pepperoni", "mushrooms", "peppers");
 // 3c. getPizzaOrder with a topping NOT at pizza place:
 getPizzaOrder("large", "thick crust", "pepperoni", "mushrooms", "onion");
 // 4. Prepare Pizza
-const pizzaObj = preparePizza([
-  "small",
-  "thin crust",
-  "chicken",
-  "onion",
-  "bbq sauce"
-]);
 // 5. Serve Pizza
-servePizza(pizzaObj);
+servePizza(
+  preparePizza(["small", "thin crust", "chicken", "onion", "bbq sauce"])
+);
