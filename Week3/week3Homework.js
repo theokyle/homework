@@ -5,15 +5,34 @@ const pizzaToppings = ["pepperoni", "mushrooms", "sausage", "peppers"];
 // 2. Create a greetCustomer function that prints a message that welcomes a guest, then informs them of the available toppings by looping over pizzaToppings (don't worry about perfect grammar here yet, i.e. "a, b, and c", see Bonus Challenge #9)
 // i.e. "Welcome to Pizza House, our toppings are: a, b, c, ..."
 function greetCustomer(toppings) {
-  let message = "Welcome to Pizza House, our toppings are: ";
+  console.log(
+    `Welcome to Pizza House, our toppings are: ${listToppings(toppings)}`
+  );
+}
+
+function listToppings(toppings) {
+  let toppingsString = "";
+
+  // Included this statement to catch a situation where there shouldn't be a comma.
+  if (toppings.length === 2) {
+    return `${toppings[0]} and ${toppings[1]}`;
+  }
+
   for (let i = 0; i < toppings.length; i++) {
+    // Check if the topping is at the pizza place
+    if (!pizzaToppings.includes(toppings[i])) {
+      return "Sorry, we do not offer those toppings. Please try and order again.";
+    }
+
+    // Check if it is the last topping in the list
     if (i === toppings.length - 1) {
-      message += `and ${toppings[i]}.`;
+      toppingsString += `and ${toppings[i]}.`;
     } else {
-      message += `${toppings[i]}, `;
+      toppingsString += `${toppings[i]}, `;
     }
   }
-  console.log(message);
+
+  return toppingsString;
 }
 
 // 3. Create a getPizzaOrder function that
@@ -22,36 +41,19 @@ function greetCustomer(toppings) {
 //outputs a list with the size, crust, and toppings
 
 function getPizzaOrder(size, crust, ...toppings) {
-  let message = `One ${size} ${crust} `;
+  let message = `One ${size} ${crust}`;
   if (toppings.length === 0) {
     console.log(`${message} coming up!`);
     return;
   }
-  message += "with ";
+  const toppingsString = listToppings(toppings);
 
-  for (let i = 0; i < toppings.length; i++) {
-    let toppingsCheck = false;
-    for (const pizzaTopping of pizzaToppings) {
-      if (toppings[i] === pizzaTopping) {
-        toppingsCheck = true;
-      }
-    }
-
-    // I would actually use "if (!pizzaToppings.includes(toppings[i]))"" here instead of the previous loop with toppingsCheck,
-    // but didn't want to rely on array methods as per the instructions so used iteration instead.
-
-    if (!toppingsCheck) {
-      console.log("Sorry, we do not offer those toppings.");
-      return;
-    }
-
-    if (i === toppings.length - 1) {
-      message += `and ${toppings[i]}.`;
-    } else {
-      message += `${toppings[i]}, `;
-    }
+  if (toppingsString.includes("Sorry")) {
+    console.log(toppingsString);
+  } else {
+    console.log(`${message} with ${toppingsString} Coming up!`);
   }
-  console.log(message);
+  return [size, crust, toppings];
 }
 
 // 4. Create a preparePizza function that
@@ -64,7 +66,7 @@ function preparePizza(pizzaArray) {
   return {
     size: pizzaArray[0],
     crust: pizzaArray[1],
-    toppings: pizzaArray.slice(2)
+    toppings: pizzaArray[2]
   };
 }
 
@@ -74,15 +76,18 @@ function preparePizza(pizzaArray) {
 // outputs the same pizza Object that was passed in
 
 function servePizza(pizzaObject) {
-  let message = `Order up! Here's your ${pizzaObject.size} ${pizzaObject.crust} pizza with `;
-  for (let i = 0; i < pizzaObject.toppings.length; i++) {
-    if (i === pizzaObject.toppings.length - 1) {
-      message += `and ${pizzaObject.toppings[i]}.`;
+  let message = `Order up! Here's your ${pizzaObject.size} ${pizzaObject.crust} pizza`;
+  // Check if there are no toppings
+  if (pizzaObject.toppings.length === 0) {
+    console.log(message + ".");
+  } else {
+    const toppingsString = listToppings(pizzaObject.toppings);
+    if (toppingsString.includes("Sorry")) {
+      console.log(toppingsString);
     } else {
-      message += `${pizzaObject.toppings[i]}, `;
+      console.log(message + toppingsString);
     }
   }
-  console.log(message);
   return pizzaObject;
 }
 
@@ -92,12 +97,17 @@ function servePizza(pizzaObject) {
 greetCustomer(pizzaToppings);
 // 3a. getPizzaOrder with no toppings
 getPizzaOrder("large", "thick crust");
-// 3b. getPizzaOrder with toppings at Pizza Place
-getPizzaOrder("large", "thick crust", "pepperoni", "mushrooms", "peppers");
-// 3c. getPizzaOrder with a topping NOT at pizza place:
+// 3b. getPizzaOrder with a topping NOT at pizza place:
 getPizzaOrder("large", "thick crust", "pepperoni", "mushrooms", "onion");
-// 4. Prepare Pizza
-// 5. Serve Pizza
-servePizza(
-  preparePizza(["small", "thin crust", "chicken", "onion", "bbq sauce"])
+// 3c. getPizzaOrder with toppings at Pizza Place
+const pizzaOrder = getPizzaOrder(
+  "large",
+  "thick crust",
+  "pepperoni",
+  "mushrooms",
+  "peppers"
 );
+// 4. Prepare Pizza
+const preparedPizza = preparePizza(pizzaOrder);
+// 5. Serve Pizza
+servePizza(preparedPizza);
