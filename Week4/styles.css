@@ -55,7 +55,7 @@ h1 {
   justify-content: space-around;
 }
 
-.bio > img {
+#profile-pic {
   width: 25%;
   margin: 50px;
   max-height: 450px;
