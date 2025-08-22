@@ -1,3 +1,18 @@
+@media (max-width: 450px) {
+  img {
+    max-width: 80%;
+  }
+  h2 {
+    margin: 25px;
+  }
+}
+
+@media (min-width: 700px) {
+  #proCareer > img {
+  max-width: 500px;
+}
+}
+
 html {
   background-color: antiquewhite;
 }
@@ -45,10 +60,6 @@ p, ul {
 
 #Stuff {
   text-align: center;
-}
-
-#proCareer > img {
-  max-width: 500px;
 }
 
 img {
